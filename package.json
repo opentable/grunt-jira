@@ -1,0 +1,38 @@
+{
+  "name": "grunt-jira",
+  "version": "1.0.0",
+  "description": "Grunt task for working with jira",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/doron2402/grunt-jira.git"
+  },
+  "keywords": [
+    "grunt",
+    "jira",
+    "jira",
+    "rest",
+    "jira",
+    "rest",
+    "api"
+  ],
+  "author": "Doron Segal <doron2402@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/doron2402/grunt-jira/issues"
+  },
+  "homepage": "https://github.com/doron2402/grunt-jira",
+  "dependencies": {
+    "jira-api": "^0.2.2",
+    "q": "^1.4.1"
+  },
+  "devDependencies": {
+    "grunt-cli": "~0.1.13",
+    "grunt-mocha-test": "~0.9.0",
+    "grunt-contrib-jshint": "~0.8.0",
+    "should": "~3.1.2"
+  }
+}
