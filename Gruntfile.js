@@ -48,7 +48,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.registerTask('test', ['jshint',  'start-jira-server', 'ccb:test', 'mochaTest']);
-    grunt.registerTask('test', ['jshint']);
+    // grunt.registerTask('test', ['jshint']);
     grunt.registerTask('default', ['test']);
     grunt.loadTasks('tasks');
     grunt.loadTasks('tests/tasks');

@@ -13,7 +13,7 @@ var createCbbRequest = fs.openSync('tests/data/actual/ccb-request.json', 'w'),
 module.exports = function(grunt){
     grunt.registerTask('start-jira-server', function(){
         server = http.createServer(function(request, response) {
-
+            console.log(request);
             if (request.method != 'POST'){
                 throw new Error("This dummy server only responds to POST requests");
             }
@@ -39,6 +39,7 @@ module.exports = function(grunt){
                     response.writeHead(200, {"Content-Type": "application/json"});
 
                 }
+
                 response.end();
             });
         }).listen(8888);

@@ -1,11 +1,13 @@
 'use string';
 
-var jira = require('jira-api');
+var jiraApi = require('jira-api');
 var q = require('q');
+var util = require('util');
 
 module.exports = function(grunt){
 
-  grunt.registerMultiTask('jira', 'JIRA Grunt Task', function(){
+  grunt.registerMultiTask('ccb', 'JIRA Grunt Task', function(){
+
 
     var done = this.async();
     var options = this.options({});
@@ -14,10 +16,11 @@ module.exports = function(grunt){
 
     var createTicket = function() {
       grunt.verbose.writeln("Creating CCB");
+
       var deferred = q.defer();
-      var options = {
+      var jiraOptions = {
         config: {
-          "username": options.jira.username || ptions.jira.user,
+          "username": options.jira.username || options.jira.user,
           "passowrd": options.jira.password || options.jira.pass,
           "host": options.jira.host || options.jira.api_url
         },
@@ -37,24 +40,26 @@ module.exports = function(grunt){
         }
       };
 
-      jira.issue.post(options, function(response) {
+      grunt.verbose.writeln(JSON.stringify(jiraOptions));
+
+      jiraApi.issue.post(jiraOptions, function(response) {
           if (response && response.id && response.key) {
             grunt.verbose.writeln("response", response);
             deferred.resolve(response);
           } else {
             grunt.verbose.writeln("error", response);
-            deferred.reject(error);
+            deferred.reject(response);
           }
-          return deferred.promise;
       });
+      return deferred.promise;
     };
 
     var updateCcbToDoneAndUploadManfest = function(args){
-
+      grunt.verbose.writeln("Upload attachment");
       var deferred = q.defer();
       grunt.verbose.writeln(JSON.stringify(args));
 
-      var options = {
+      var jiraOptions = {
         config: {
           "username": options.jira.user,
           "passowrd": options.jira.password,
@@ -70,7 +75,7 @@ module.exports = function(grunt){
         }
       };
 
-      jira.issue.post(options, function(err, response) {
+      jiraApi.issue.post(jiraOptions, function(err, response) {
         if (err){
           grunt.verbose.writeln("error", err);
           deferred.reject(err);
