@@ -34,16 +34,17 @@ module.exports = function(grunt) {
             password: "passwordtest",
             verbose: true,
             version: 2,
-            project_id: "4321",
-            ccb_issue_type: 20,
-            ccb_done_state: 11
+            project_id: '4321',
+            ccb_issue_type: '20',
+            ccb_done_state: '11'
           },
           project: {
-            name: "projectname",
-            custom_text: "some text"
+            name: 'SearchResults v2',
+            custom_text: 'Search Results Manifest Step',
+            description: 'Search Results Manifest Step'
           },
-          manifest: "tests/data/manifest.json",
-          build_number: "grunt-ccb_1234"
+          manifest: 'manifests/<%= grunt.option("versionNumber") %>/commit-log.json',
+          build_number: 'v123'
         }
       }
     }

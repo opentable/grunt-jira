@@ -22,7 +22,10 @@ module.exports = function(grunt){
       password: options.jira.password || options.jira.pass,
       version: options.jira.version || '2',
       verbose: options.jira.verbose || true,
-      strictSSL: options.jira.strictSSL || false
+      strictSSL: options.jira.strictSSL || false,
+      custom_text: options.project.custom_text || '',
+      description: options.project.description || '',
+      environment: options.environment || 'production'
     };
 
     grunt.verbose.writeln('Config', mainConfig);
@@ -43,21 +46,38 @@ module.exports = function(grunt){
 
       var deferred = q.defer();
       var issueOptions = {
-        fields: {
-          project: {
-            id: options.jira.project_id
+        "update": {
+          "worklog": [
+            {
+              "add": {
+                "started": grunt.template.today("isoDateTime"),
+              }
+            }
+          ]
+        },
+        "fields": {
+          "project": {
+              "id": options.jira.project_id
           },
-          summary: util.format('Deploying %s %s to production', options.project.name, options.build_number),
-          issuetype: {
-            id: options.jira.ccb_issue_type
+          "summary": util.format('Deploying %s %s to production', options.project.name, options.build_number),
+          "issuetype": {
+              "id": options.jira.ccb_issue_type
           },
-          customfield_11502: grunt.template.today("isoDateTime"),
-          customfield_11505: 'Commit log - ' + options.jira.project_id,
-          customfield_50000: options.project.custom_text
+          "priority": {
+              "id": "20000"
+          },
+          "labels": [
+            options.project.name,
+            options.build_number
+          ],
+          "environment": mainConfig.environment,
+          "description": mainConfig.description,
+          "customfield_50000": mainConfig.custom_text,
+          "customfield_10000": grunt.template.today("isoDateTime")
         }
       };
 
-      grunt.verbose.writeln('issueOptions', issueOptions);
+      grunt.verbose.writeln('issueOptions', JSON.stringify(issueOptions));
 
       jira.addNewIssue(issueOptions, function(err, response){
         if (err) {
