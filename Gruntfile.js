@@ -40,6 +40,7 @@ module.exports = function(grunt) {
           },
           project: {
             name: "projectname",
+            custom_text: "some text"
           },
           manifest: "tests/data/manifest.json",
           build_number: "grunt-ccb_1234"

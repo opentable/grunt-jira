@@ -52,7 +52,8 @@ module.exports = function(grunt){
             id: options.jira.ccb_issue_type
           },
           customfield_11502: grunt.template.today("isoDateTime"),
-          customfield_11505: 'Commit log - ' + options.jira.project_id
+          customfield_11505: 'Commit log - ' + options.jira.project_id,
+          customfield_50000: options.project.custom_text
         }
       };
 
