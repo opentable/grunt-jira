@@ -1,18 +1,25 @@
-var http = require("http"),
-    fs = require("fs"),
-    server = {};
+var https = require("https");
+var fs = require("fs");
+var server = {};
+var options = {};
+var port = 9000;
 
 try {
+    options = {
+      key: fs.readFileSync('tests/keys/key.pem'),
+      cert: fs.readFileSync('tests/keys/key-cert.pem')
+    };
+
   fs.mkdirSync("tests/data/actual");
 }
 catch (err) {}
 
-var createCbbRequest = fs.openSync('tests/data/actual/ccb-request.json', 'w'),
-    doneTransitionRequest = fs.openSync('tests/data/actual/done-transition-request.json', 'w');
+var createCbbRequest = fs.openSync('tests/data/actual/ccb-request.json', 'w');
+var doneTransitionRequest = fs.openSync('tests/data/actual/done-transition-request.json', 'w');
 
 module.exports = function(grunt){
     grunt.registerTask('start-jira-server', function(){
-        server = http.createServer(function(request, response) {
+        server = https.createServer(options, function(request, response) {
             console.log(request);
             if (request.method != 'POST'){
                 throw new Error("This dummy server only responds to POST requests");
@@ -42,6 +49,6 @@ module.exports = function(grunt){
 
                 response.end();
             });
-        }).listen(8888);
+        }).listen(port);
     });
 };

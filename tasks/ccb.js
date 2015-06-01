@@ -21,7 +21,7 @@ module.exports = function(grunt){
       var jiraOptions = {
         config: {
           "username": options.jira.username || options.jira.user,
-          "passowrd": options.jira.password || options.jira.pass,
+          "password": options.jira.password || options.jira.pass,
           "host": options.jira.host || options.jira.api_url
         },
         data: {

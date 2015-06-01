@@ -27,9 +27,9 @@ module.exports = function(grunt) {
             test: {
                 options: {
                     jira: {
-                        host: "http://localhost:8888/",
-                        username: "user",
-                        password: "password",
+                        host: "https://localhost:9000",
+                        username: "usertest",
+                        password: "passwordtest",
                         project_id: "4321",
                         ccb_issue_type: 20,
                         ccb_done_state: 11
@@ -48,7 +48,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.registerTask('test', ['jshint',  'start-jira-server', 'ccb:test', 'mochaTest']);
-    // grunt.registerTask('test', ['jshint']);
     grunt.registerTask('default', ['test']);
     grunt.loadTasks('tasks');
     grunt.loadTasks('tests/tasks');
