@@ -25,6 +25,8 @@ module.exports = function(grunt){
       strictSSL: options.jira.strictSSL || false
     };
 
+    grunt.verbose.writeln('Config', mainConfig);
+
     jira = new JiraApi(
       mainConfig.protocol,
       mainConfig.host,
