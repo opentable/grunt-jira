@@ -8,8 +8,8 @@ module.exports = function(grunt) {
 
     jshint: {
         all: [
-            'Gruntfile.js',
-            'tasks/*.js'
+          'Gruntfile.js',
+          'tasks/*.js'
         ],
         options: {
             jshintrc: '.jshintrc'
@@ -23,16 +23,20 @@ module.exports = function(grunt) {
         src: ['tests/ccb-tests.js']
       }
     },
-    "ccb": {
+    'ccb': {
       test: {
         options: {
           jira: {
-              host: "https://localhost:9000",
-              username: "usertest",
-              password: "passwordtest",
-              project_id: "4321",
-              ccb_issue_type: 20,
-              ccb_done_state: 11
+            protocol: 'https',
+            host: "localhost",
+            port: 9000,
+            username: "usertest",
+            password: "passwordtest",
+            verbose: true,
+            version: 2,
+            project_id: "4321",
+            ccb_issue_type: 20,
+            ccb_done_state: 11
           },
           project: {
             name: "projectname",
@@ -47,7 +51,7 @@ module.exports = function(grunt) {
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-mocha-test');
-  grunt.registerTask('test', ['jshint',  'start-jira-server', 'ccb:test', 'mochaTest']);
+  grunt.registerTask('test', ['jshint', 'start-jira-server', 'ccb:test', 'mochaTest']);
   grunt.registerTask('default', ['test']);
   grunt.loadTasks('tasks');
   grunt.loadTasks('tests/tasks');

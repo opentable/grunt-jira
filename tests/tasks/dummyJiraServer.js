@@ -20,22 +20,17 @@ var doneTransitionRequest = fs.openSync('tests/data/actual/done-transition-reque
 module.exports = function(grunt){
   grunt.registerTask('start-jira-server', function(){
     server = https.createServer(options, function(request, response) {
-      console.log('request');
-      console.log(request);
-      if (request.method != 'POST'){
-        throw new Error("This dummy server only responds to POST requests");
-      }
-
       var body = '';
       request.on('data', function (data) {
+        console.log(data);
           body += data;
       });
 
       request.on('end', function () {
 
         var bodyJson = JSON.parse(body);
-
-        if (request.url === '/issue/') //create ccb
+        var url = request.url;
+        if (url.split('/').pop() === 'issue') //create ccb
         {
           fs.writeSync(createCbbRequest, JSON.stringify({ headers: request.headers, url: request.url, body: bodyJson  }));
           response.writeHead(200, {"Content-Type": "application/json"});
@@ -45,7 +40,10 @@ module.exports = function(grunt){
           fs.writeSync(doneTransitionRequest, JSON.stringify({ headers: request.headers, url: request.url, body: bodyJson }));
           response.writeHead(200, {"Content-Type": "application/json"});
         }
-
+        else {
+          response.writeHead(200, {"Content-Type": "application/json"});
+          response.write('{"message": "unknown", "url": "'+ url +'"}');
+        }
         response.end();
       });
     }).listen(port);
