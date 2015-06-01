@@ -6,7 +6,7 @@ var util = require('util');
 
 module.exports = function(grunt){
 
-  grunt.registerMultiTask('ccb', 'JIRA Grunt Task', function(){
+  grunt.registerMultiTask('jira', 'JIRA Grunt Task', function(){
 
     var jira;
     var done = this.async();

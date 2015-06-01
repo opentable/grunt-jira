@@ -23,7 +23,7 @@ module.exports = function(grunt) {
         src: ['tests/ccb-tests.js']
       }
     },
-    'ccb': {
+    'jira': {
       test: {
         options: {
           jira: {
@@ -51,7 +51,7 @@ module.exports = function(grunt) {
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-mocha-test');
-  grunt.registerTask('test', ['jshint', 'start-jira-server', 'ccb:test', 'mochaTest']);
+  grunt.registerTask('test', ['jshint', 'start-jira-server', 'jira:test', 'mochaTest']);
   grunt.registerTask('default', ['test']);
   grunt.loadTasks('tasks');
   grunt.loadTasks('tests/tasks');
