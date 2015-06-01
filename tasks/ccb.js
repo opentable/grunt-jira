@@ -48,13 +48,15 @@ module.exports = function(grunt){
             id: options.jira.project_id
           },
           summary: util.format('Deploying %s %s to production', options.project.name, options.build_number),
-          issueType: {
+          issuetype: {
             id: options.jira.ccb_issue_type
           },
           customfield_11502: grunt.template.today("isoDateTime"),
           customfield_11505: 'Commit log - ' + options.jira.project_id
         }
       };
+
+      grunt.verbose.writeln('issueOptions', issueOptions);
 
       jira.addNewIssue(issueOptions, function(err, response){
         if (err) {
