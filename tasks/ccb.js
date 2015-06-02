@@ -23,7 +23,6 @@ module.exports = function(grunt){
       version: options.jira.version || '2',
       verbose: options.jira.verbose || true,
       strictSSL: options.jira.strictSSL || false,
-      custom_text: options.project.custom_text || '',
       description: options.project.description || '',
       environment: options.environment || 'production',
       issuetype_id: options.jira.ccb_issue_type || '10000'
@@ -57,8 +56,7 @@ module.exports = function(grunt){
           "summary": util.format('Deploying %s %s to production', options.project.name, options.build_number),
           "issuetype": {
             "id": mainConfig.issuetype_id
-          },
-          "customfield_11050" : "{" + mainConfig.custom_text + "}"
+          }
         }
       };
 
