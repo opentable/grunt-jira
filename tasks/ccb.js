@@ -47,16 +47,16 @@ module.exports = function(grunt){
 
       var deferred = q.defer();
       var issueOptions = {
-        "fields": {
-          "project":
-          {
-            "id": options.jira.project_id,
-            "key": options.jira.project_id
+        fields: {
+          project: {
+              id: options.jira.project_id
           },
-          "summary": util.format('Deploying %s %s to production', options.project.name, options.build_number),
-          "issuetype": {
-            "id": mainConfig.issuetype_id
-          }
+          summary: util.format('Deploying %s %s to production', options.project.name, options.build_number),
+          issuetype: {
+              id: mainConfig.issuetype_id
+          },
+          customfield_11502: grunt.template.today("isoDateTime"),
+          customfield_11505: 'Commit log'
         }
       };
 
