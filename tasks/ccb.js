@@ -29,9 +29,9 @@ module.exports = function(grunt){
       issuetype_id: options.jira.ccb_issue_type || '10000'
     };
 
-    grunt.verbose.writeln('Options', options);
     grunt.verbose.writeln('Config', mainConfig);
-
+    grunt.verbose.writeln('Options::', options);
+   
     jira = new JiraApi(
       mainConfig.protocol,
       mainConfig.host,
