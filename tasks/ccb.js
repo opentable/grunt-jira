@@ -49,17 +49,16 @@ module.exports = function(grunt){
       var deferred = q.defer();
       var issueOptions = {
         "fields": {
-          "project": {
-              "id": options.jira.project_id
+          "project":
+          {
+            "id": options.jira.project_id,
+            "key": options.jira.project_id
           },
           "summary": util.format('Deploying %s %s to production', options.project.name, options.build_number),
           "issuetype": {
-              "id": mainConfig.issuetype_id
+            "id": mainConfig.issuetype_id
           },
-          "labels": [
-            options.project.name,
-            options.build_number
-          ]
+          "customfield_11050" : {mainConfig.custom_text}
         }
       };
 
