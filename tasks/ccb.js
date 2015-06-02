@@ -104,7 +104,7 @@ module.exports = function(grunt){
     createTicket().then(function(response){
       return updateCcbToDoneAndUploadManfest(response);
     }).catch(function(error){
-      grunt.fatal(JSON.stringify(error));
+      grunt.verbose.writeln('>> Error: ' , JSON.stringify(error));
     }).done(function(){
       grunt.verbose.writeln('Done.');
       return done();
