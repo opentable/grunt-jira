@@ -58,7 +58,7 @@ module.exports = function(grunt){
           "issuetype": {
             "id": mainConfig.issuetype_id
           },
-          "customfield_11050" : {mainConfig.custom_text}
+          "customfield_11050" : "{" + mainConfig.custom_text + "}"
         }
       };
 
