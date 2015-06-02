@@ -25,9 +25,11 @@ module.exports = function(grunt){
       strictSSL: options.jira.strictSSL || false,
       custom_text: options.project.custom_text || '',
       description: options.project.description || '',
-      environment: options.environment || 'production'
+      environment: options.environment || 'production',
+      issuetype_id: options.jira.ccb_issue_type || '10000'
     };
 
+    grunt.verbose.writeln('Options', options);
     grunt.verbose.writeln('Config', mainConfig);
 
     jira = new JiraApi(
@@ -61,7 +63,7 @@ module.exports = function(grunt){
           },
           "summary": util.format('Deploying %s %s to production', options.project.name, options.build_number),
           "issuetype": {
-              "id": options.jira.ccb_issue_type
+              "id": mainConfig.issuetype_id
           },
           "priority": {
               "id": "20000"
