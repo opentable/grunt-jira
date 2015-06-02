@@ -31,7 +31,7 @@ module.exports = function(grunt){
 
     grunt.verbose.writeln('Config', mainConfig);
     grunt.verbose.writeln('Options::', options);
-   
+
     jira = new JiraApi(
       mainConfig.protocol,
       mainConfig.host,
@@ -48,15 +48,6 @@ module.exports = function(grunt){
 
       var deferred = q.defer();
       var issueOptions = {
-        "update": {
-          "worklog": [
-            {
-              "add": {
-                "started": grunt.template.today("isoDateTime"),
-              }
-            }
-          ]
-        },
         "fields": {
           "project": {
               "id": options.jira.project_id
@@ -65,17 +56,10 @@ module.exports = function(grunt){
           "issuetype": {
               "id": mainConfig.issuetype_id
           },
-          "priority": {
-              "id": "20000"
-          },
           "labels": [
             options.project.name,
             options.build_number
-          ],
-          "environment": mainConfig.environment,
-          "description": mainConfig.description,
-          "customfield_50000": mainConfig.custom_text,
-          "customfield_10000": grunt.template.today("isoDateTime")
+          ]
         }
       };
 
