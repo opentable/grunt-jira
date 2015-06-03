@@ -89,7 +89,7 @@ module.exports = function(grunt){
         file: options.manifest
       };
       jira.updateIssue(issueOptions, function(err, response) {
-        if (err){
+        if (err && err.errors){
           grunt.verbose.writeln("error", err);
           deferred.reject(err);
         } else {
