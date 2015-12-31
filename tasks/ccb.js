@@ -1,8 +1,6 @@
-'use string';
+'use strict';
 
-var JiraApi = require('jira').JiraApi;
-var q = require('q');
-var util = require('util');
+var ccb = require('../lib/ccb');
 
 module.exports = function(grunt){
 
@@ -14,101 +12,14 @@ module.exports = function(grunt){
 
     grunt.verbose.writeflags(options);
 
-    var mainConfig = {
-      protocol: options.jira.protocol || 'https',
-      host: options.jira.host || options.jira.api_url,
-      port: options.jira.port || 443,
-      user: options.jira.username || options.jira.user,
-      password: options.jira.password || options.jira.pass,
-      version: options.jira.version || '2',
-      verbose: options.jira.verbose || true,
-      strictSSL: options.jira.strictSSL || false,
-      description: options.project.description || '',
-      environment: options.environment || 'production',
-      issuetype_id: options.jira.ccb_issue_type || '10000'
-    };
+    options.logger = grunt.verbose.writeln;
 
-    grunt.verbose.writeln('Config', mainConfig);
-    grunt.verbose.writeln('Options::', options);
-
-    jira = new JiraApi(
-      mainConfig.protocol,
-      mainConfig.host,
-      mainConfig.port,
-      mainConfig.user,
-      mainConfig.password,
-      mainConfig.version,
-      mainConfig.verbose,
-      mainConfig.strictSSL
-    );
-
-    var createTicket = function() {
-      grunt.verbose.writeln("Creating CCB");
-
-      var deferred = q.defer();
-      var issueOptions = {
-        fields: {
-          project: {
-              id: options.jira.project_id
-          },
-          summary: util.format('Deploying %s %s to production', options.project.name, options.build_number),
-          issuetype: {
-              id: mainConfig.issuetype_id
-          },
-          customfield_11502: grunt.template.today("isoDateTime"),
-          customfield_11505: 'Commit log'
-        }
-      };
-
-      grunt.verbose.writeln('issueOptions', JSON.stringify(issueOptions));
-
-      jira.addNewIssue(issueOptions, function(err, response){
-        if (err) {
-          grunt.verbose.writeln("err", err);
-          deferred.reject(err);
-        } else {
-          grunt.verbose.writeln("response", response);
-          deferred.resolve(response);
-        }
+    ccb(options)
+      .catch(function(error){
+        grunt.verbose.writeln('>> Error: ' , JSON.stringify(error));
+      })
+      .done(function() {
+        grunt.verbose.writeln('Done.');
       });
-
-      return deferred.promise;
-    };
-
-    var updateCcbToDoneAndUploadManfest = function(args){
-      grunt.verbose.writeln("Upload attachment");
-      var deferred = q.defer();
-      grunt.verbose.writeln(JSON.stringify(args));
-
-      var issueOptions = {
-        fields: {
-          issue: {
-            key: args.key
-          }
-        },
-        file: options.manifest
-      };
-      jira.updateIssue(issueOptions, function(err, response) {
-        if (err && err.errors){
-          grunt.verbose.writeln("error", err);
-          deferred.reject(err);
-        } else {
-          grunt.verbose.writeln("response", response);
-          deferred.resolve(response);
-        }
-      });
-
-      return deferred.promise;
-    };
-
-    createTicket().then(function(response){
-      return updateCcbToDoneAndUploadManfest(response);
-    }).catch(function(error){
-      grunt.verbose.writeln('>> Error: ' , JSON.stringify(error));
-    }).done(function(){
-      grunt.verbose.writeln('Done.');
-      return done();
-    });
-
   });
 };
