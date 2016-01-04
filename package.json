@@ -1,6 +1,6 @@
 {
   "name": "grunt-jira-api",
-  "version": "0.0.51",
+  "version": "0.1.0",
   "description": "Grunt task for working with jira",
   "main": "Gruntfile.js",
   "scripts": {
