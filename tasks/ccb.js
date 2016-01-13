@@ -1,25 +1,22 @@
-'use strict';
+const ccb = require('../lib/ccb');
 
-var ccb = require('../lib/ccb');
-
-module.exports = function(grunt){
-
-  grunt.registerMultiTask('jira', 'JIRA Grunt Task', function(){
-
-    var jira;
-    var done = this.async();
-    var options = this.options({});
+module.exports = function(grunt) {
+  grunt.registerMultiTask('jira', 'JIRA Grunt Task', function() {
+    const done = this.async();
+    const options = this.options({});
 
     grunt.verbose.writeflags(options);
 
     options.logger = grunt.verbose.writeln;
 
     ccb(options)
-      .catch(function(error){
+      .catch(function(error) {
         grunt.verbose.writeln('>> Error: ' , JSON.stringify(error));
+        done(error);
       })
       .done(function() {
         grunt.verbose.writeln('Done.');
+        done();
       });
   });
 };
