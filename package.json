@@ -23,6 +23,7 @@
   "homepage": "https://github.com/opentable/grunt-jira-manifest",
   "dependencies": {
     "jira": "^0.9.2",
+    "moment": "^2.11.1",
     "q": "^1.4.1"
   },
   "devDependencies": {
