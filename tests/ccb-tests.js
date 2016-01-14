@@ -4,6 +4,10 @@ var fs = require('fs');
 var assert = require('assert');
 var JiraApi = require('jira').JiraApi;
 
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 describe('when executing ccb', function() {
   // README: Add your jira username and password to grunt test as environment variables.
   // e.g. JIRA_USERNAME=myusername JIRA_PASSWORD=mypassword grunt test
@@ -63,7 +67,7 @@ describe('when executing ccb', function() {
         build_number: 'v0.0.350'
       })
       .then(function(res) {
-        result = JSON.parse(res);
+        result = res;
         done();
       })
       .catch(function(err) {
@@ -74,8 +78,8 @@ describe('when executing ccb', function() {
     });
 
     it('responds with a valid issue', function() {
-      assert.ok(result instanceof Array);
-      assert.equal(result[0].filename, 'manifest.json');
+      assert.equal(typeof result, 'object');
+      assert.ok(isNumeric(result.id));
     });
   });
 });
