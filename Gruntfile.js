@@ -5,16 +5,6 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-
-    jshint: {
-        all: [
-          'Gruntfile.js',
-          'tasks/*.js'
-        ],
-        options: {
-            jshintrc: '.jshintrc'
-        }
-    },
     mochaTest:{
       options: {
         reporter: 'spec'
@@ -51,7 +41,6 @@ module.exports = function(grunt) {
   });
 
   // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-mocha-test');
 
   grunt.registerTask('test', ['mochaTest']);
